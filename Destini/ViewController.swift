@@ -34,31 +34,68 @@ class ViewController: UIViewController {
     @IBOutlet weak var bottomButton: UIButton!      // Has TAG = 2
     @IBOutlet weak var storyTextView: UILabel!
     
-    // TODO Step 5: Initialise instance variables here
-    
-    
-    
+    var storyNumber: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        // TODO Step 3: Set the text for the storyTextView, topButton, bottomButton, and to T1_Story, T1_Ans1, and T1_Ans2
+        startGame()
         
     }
 
     
     // User presses one of the buttons
     @IBAction func buttonPressed(_ sender: UIButton) {
-    
-        // TODO Step 4: Write an IF-Statement to update the views
-                
-        // TODO Step 6: Modify the IF-Statement to complete the story
         
+        if sender.tag == 1 {
+            if storyNumber == 1 || storyNumber == 2 {
+                storyTextView.text = story3
+                topButton.setTitle(answer3a, for: .normal)
+                bottomButton.setTitle(answer3b, for: .normal)
+                storyNumber = 3
+            } else if storyNumber == 3  {
+                storyTextView.text = story6
+                gameOver()
+            }
+        } else if sender.tag == 2 {
+            if storyNumber == 1 {
+                storyTextView.text = story2
+                topButton.setTitle(answer2a, for: .normal)
+                bottomButton.setTitle(answer2b, for: .normal)
+                storyNumber = 2
+            } else if storyNumber == 2 {
+                storyTextView.text = story4
+                gameOver()
+            } else if storyNumber == 3 {
+                storyTextView.text = story5
+                gameOver()
+            }
+        }
     
     }
     
-
+    func startGame() {
+        topButton.isHidden = false
+        bottomButton.isHidden = false
+        storyNumber = 1
+        storyTextView.text = story1
+        topButton.setTitle(answer1a, for: .normal)
+        bottomButton.setTitle(answer1b, for: .normal)
+    }
+    
+    func gameOver() {
+        topButton.isHidden = true
+        bottomButton.isHidden = true
+        
+        let alert = UIAlertController(title: "End of the Road", message: "You've finished the game, do you want to start over?", preferredStyle: .alert)
+        
+        let restartAction = UIAlertAction(title: "Restart", style: .default) { (UIAlertAction) in
+            self.startGame()
+        }
+            
+        alert.addAction(restartAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
 
 
 }
